@@ -32,8 +32,6 @@ def make_graph(txt_filename):
     # Save the figure
     plt.savefig(f'{txt_filename}{datetime.now().strftime("%d_%m_%Y__%H_%M_%S")}.png', dpi=300)
 
-    plt.show()
-
 
 
 
