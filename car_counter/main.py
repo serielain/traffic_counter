@@ -99,5 +99,6 @@ finally:
     make_graph(f"{output_dir}/object_count.txt")
     make_class_wise_graph(f"{output_dir}/class_wise_object_count.txt")
     timelapse = input("Do you want to save a timelapse of the videostream? Y/N")
+    print("\n")
     if timelapse == "Y":
         create_video_from_images(frames, f"{output_dir}/video.mp4")
