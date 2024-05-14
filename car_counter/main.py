@@ -13,6 +13,7 @@ from create_graph import make_graph
 video_source = "http://192.168.178.20:8080/video"                              # Video source (URL or path to video file)
 output_dir = "Y:/local_programming/everything_everywhere/car_counter_output"   # Output directory for saving the images
 line_points = [(200, 720), (640,360)]                                          # Line points for counting objects
+classes_to_track = [2,3,5,7]                                                   # Classes to track (based on YOLOv8 classes)
 
 model = YOLO("yolov8n.pt")
 
@@ -50,7 +51,7 @@ try:
             print("Video frame is empty or video processing has been successfully completed.")
             break
         
-        tracks = model.track(im0, persist=True, conf=0.25, show=False,verbose=False, classes=[2,3,5,7], tracker="bytetrack.yaml", save=False, save_crop=False)
+        tracks = model.track(im0, persist=True, conf=0.25, show=False,verbose=False, classes=classes_to_track, tracker="bytetrack.yaml", save=False, save_crop=False)
         im0 = counter.start_counting(im0, tracks)
 
         total_object_count = counter.in_counts + counter.out_counts
