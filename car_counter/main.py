@@ -8,6 +8,7 @@ import cv2
 import os
 
 from create_graph import make_graph
+from create_graph import make_class_wise_graph
 
 #THESE ARE VARIABLES YOU NEED TO CHANGE ACCORDING TO YOUR NEEDS // THIS PROGRAM USES PYTHON 3.10.6 and YOLOV8
 ##############################################################################
@@ -51,7 +52,6 @@ counter.set_args(view_img=True,
                  track_thickness=0,
                  region_thickness=0,
                  line_thickness=2)
-
 total_object_count_list = []
 try:
     while cap.isOpened():
@@ -62,7 +62,6 @@ try:
         
         tracks = model.track(im0, persist=True, conf=0.25, show=False,verbose=False, classes=classes_to_track, tracker="bytetrack.yaml", save=False, save_crop=False)
         im0 = counter.start_counting(im0, tracks)
-
         total_object_count = counter.in_counts + counter.out_counts
         with open(f"{output_dir}/object_count.txt", "a") as f:
             if(total_object_count not in total_object_count_list):
@@ -76,14 +75,20 @@ try:
                 image_path = os.path.join(output_dir, f'frame_{counter.in_counts + counter.out_counts}_{formatted_now}.png')
                 cv2.imwrite(image_path, im0)
 
+                with open(f"{output_dir}/class_wise_object_count.txt", "a") as f_class_wise:
+                    f_class_wise.write("\n" + formatted_now +"OBJECTS"+ str(counter.class_wise_count))
+
     make_graph(f"{output_dir}/object_count.txt")
+    make_class_wise_graph(f"{output_dir}/class_wise_object_count.txt")
 except KeyboardInterrupt as e:
     print("Video processing has been interrupted by the user.")
     cap.release()
     cv2.destroyAllWindows()
     make_graph(f"{output_dir}/object_count.txt")
+    make_class_wise_graph(f"{output_dir}/class_wise_object_count.txt")
 except Exception as e:
-    print(str(e))
+    print(str(e) + " Error occurred while processing the video.")
     cap.release()
     cv2.destroyAllWindows()
     make_graph(f"{output_dir}/object_count.txt")
+    make_class_wise_graph(f"{output_dir}/class_wise_object_count.txt")

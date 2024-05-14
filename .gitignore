@@ -2,6 +2,7 @@
 object_count.txt
 *.png
 *.pt
+local_test.py
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
