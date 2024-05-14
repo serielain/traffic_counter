@@ -62,7 +62,7 @@ try:
         success, im0 = cap.read()
 
         frame_counter += 1
-        if frame_counter % 10 == 0:
+        if frame_counter % 100 == 0:
             frames.append(im0)
 
         if not success:
