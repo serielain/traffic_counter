@@ -92,3 +92,9 @@ except Exception as e:
     cv2.destroyAllWindows()
     make_graph(f"{output_dir}/object_count.txt")
     make_class_wise_graph(f"{output_dir}/class_wise_object_count.txt")
+
+finally:
+    cap.release()
+    cv2.destroyAllWindows()
+    make_graph(f"{output_dir}/object_count.txt")
+    make_class_wise_graph(f"{output_dir}/class_wise_object_count.txt")
