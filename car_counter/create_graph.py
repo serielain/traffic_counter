@@ -49,9 +49,11 @@ def make_class_wise_graph(txt_filename):
             total_count = sum(sum(counts.values()) for counts in counts_dict.values())
             total_data.append((timestamp, total_count))
             for category, counts in counts_dict.items():
-                if category not in data_dict:
-                    data_dict[category] = []
-                data_dict[category].append((timestamp, sum(counts.values())))
+                total_category_count = sum(counts.values())
+                if total_category_count > 0:  # Only include categories with a count > 0
+                    if category not in data_dict:
+                        data_dict[category] = []
+                    data_dict[category].append((timestamp, total_category_count))
 
     # Create DataFrames
     df_dict = {category: pd.DataFrame(data, columns=['timestamp', 'count']) for category, data in data_dict.items()}
