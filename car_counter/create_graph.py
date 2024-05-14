@@ -74,10 +74,19 @@ def make_class_wise_graph(txt_filename):
     plt.savefig(f'{txt_filename}{datetime.now().strftime("%d_%m_%Y__%H_%M_%S")}.png', dpi=300)
 
 def create_video_from_images(frames, filename):
-    height, width, _ = frames[0].shape
-    video = cv2.VideoWriter(filename, cv2.VideoWriter_fourcc(*'mp4v'), 10, (width, height))
+    # Reduce resolution
+    scale_percent = 50  # percent of original size
+    width = int(frames[0].shape[1] * scale_percent / 100)
+    height = int(frames[0].shape[0] * scale_percent / 100)
+    dim = (width, height)
+    resized_frames = [cv2.resize(frame, dim, interpolation=cv2.INTER_AREA) for frame in frames]
 
-    for frame in frames:
+    # Reduce frame rate
+    frame_rate = 10
+
+    video = cv2.VideoWriter(filename, cv2.VideoWriter_fourcc(*'mp4v'), frame_rate, (width, height))
+
+    for frame in resized_frames:
         video.write(frame)
 
     video.release()
