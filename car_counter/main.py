@@ -9,6 +9,7 @@ import os
 
 from create_graph import make_graph
 from create_graph import make_class_wise_graph
+from create_graph import create_video_from_images
 
 #THESE ARE VARIABLES YOU NEED TO CHANGE ACCORDING TO YOUR NEEDS // THIS PROGRAM USES PYTHON 3.10.6 and YOLOV8
 ##############################################################################
@@ -29,6 +30,9 @@ model = YOLO("yolov8n.pt")
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model.to(device)
 print("Model loaded successfully.")
+
+frame_counter = 0
+frames = []
 
 # Open the video capture
 while True:
@@ -56,6 +60,11 @@ total_object_count_list = []
 try:
     while cap.isOpened():
         success, im0 = cap.read()
+
+        frame_counter += 1
+        if frame_counter % 10 == 0:
+            frames.append(im0)
+
         if not success:
             print("Video frame is empty or video processing has been successfully completed.")
             break
@@ -82,19 +91,13 @@ try:
     make_class_wise_graph(f"{output_dir}/class_wise_object_count.txt")
 except KeyboardInterrupt as e:
     print("Video processing has been interrupted by the user.")
-    cap.release()
-    cv2.destroyAllWindows()
-    make_graph(f"{output_dir}/object_count.txt")
-    make_class_wise_graph(f"{output_dir}/class_wise_object_count.txt")
 except Exception as e:
     print(str(e) + " Error occurred while processing the video.")
-    cap.release()
-    cv2.destroyAllWindows()
-    make_graph(f"{output_dir}/object_count.txt")
-    make_class_wise_graph(f"{output_dir}/class_wise_object_count.txt")
-
 finally:
     cap.release()
     cv2.destroyAllWindows()
     make_graph(f"{output_dir}/object_count.txt")
     make_class_wise_graph(f"{output_dir}/class_wise_object_count.txt")
+    timelapse = input("Do you want to save a timelapse of the videostream? Y/N")
+    if timelapse == "Y":
+        create_video_from_images(frames, f"{output_dir}/video.mp4")

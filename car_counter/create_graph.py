@@ -4,6 +4,7 @@ from datetime import datetime
 import pandas as pd
 from datetime import datetime
 import ast
+import cv2
 
 def make_graph(txt_filename):
     
@@ -71,3 +72,12 @@ def make_class_wise_graph(txt_filename):
 
     # Save the figure
     plt.savefig(f'{txt_filename}{datetime.now().strftime("%d_%m_%Y__%H_%M_%S")}.png', dpi=300)
+
+def create_video_from_images(frames, filename):
+    height, width, _ = frames[0].shape
+    video = cv2.VideoWriter(filename, cv2.VideoWriter_fourcc(*'mp4v'), 10, (width, height))
+
+    for frame in frames:
+        video.write(frame)
+
+    video.release()
