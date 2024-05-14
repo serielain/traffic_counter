@@ -1,5 +1,7 @@
 # traffic_counter
 
+PROBLEM WITH MOTORCYCLES CURRENTLY :(
+
 This program is a traffic counter. It counts objects that cross the line_point specified in the main.py.
 
 All parameters that need to be specified by the user are at the top of the main.py file (below the imports).
