@@ -69,25 +69,3 @@ def make_class_wise_graph(txt_filename):
 
     # Save the figure
     plt.savefig(f'{txt_filename}{datetime.now().strftime("%d_%m_%Y__%H_%M_%S")}.png', dpi=300)
-
-
-
-
-
-
-
-# import torch
-# import torchvision
-
-# print("PyTorch version:", torch.__version__)
-# print("Torchvision version:", torchvision.__version__)
-# print("PyTorch CUDA version:", torch.version.cuda)
-# print("CUDA available:", torch.cuda.is_available())
-
-# # If CUDA is available, print the CUDA device name
-# if torch.cuda.is_available():
-#     print("CUDA device name:", torch.cuda.get_device_name(0))
-
-
-# print("PyTorch version:", torch.__version__)
-# print("Torchvision version:", torchvision.__version__)
